@@ -1,3 +1,13 @@
+async function AccessControl (context) {
+    const url = new URL(context.request.url);
+    const token = context.env.ACCESS_TOKEN;
+    const protectedPath = url.pathname.startsWith("/sub/") || url.pathname.startsWith("/short/");
+    if (token && protectedPath && url.searchParams.get("token") !== token) {
+        return new Response("Not Found", { status: 404 });
+    }
+    return await context.next();
+}
+
 async function RequestInfo (context) {
     const Path = (new URL(context.request.url)).pathname;
     console.info("[Main] Processing request...")
@@ -16,4 +26,4 @@ async function PerformanceCounting (context) {
     return response;
 }
 
-export const onRequest = [RequestInfo, PerformanceCounting];
+export const onRequest = [AccessControl, RequestInfo, PerformanceCounting];
