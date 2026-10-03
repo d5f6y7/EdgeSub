@@ -40,6 +40,14 @@ import { Endpoints } from "@config/AvalibleOptoutFormat.js"
         DropdownItems={RuleProviders as DropdownItemPrototype[]}
     />
 
+    <DataInput
+        slug="AccessToken"
+        desc="访问口令"
+        detail="部署时设置的 ACCESS_TOKEN，生成链接时自动带上，仅保存在本浏览器"
+        type="input"
+        optional={true}
+    />
+
 
     <h2 class="text-lg font-bold">高级选项</h2>
     <div class="flex flex-row gap-2 flex-wrap">

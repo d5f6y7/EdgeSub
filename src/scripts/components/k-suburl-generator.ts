@@ -15,6 +15,10 @@ class SubURLGenerator extends HTMLElement {
 
         customElements.whenDefined("data-input").then(() => {
             this.Elements.Config.Basic.Backend.setDetail(`${this.Elements.Config.Basic.Backend.getDetail()} (${this.defaultBackend})`);
+            const SavedAccessToken = localStorage.getItem("edgesub_access_token");
+            if (SavedAccessToken) {
+                this.Elements.Config.UniversalExtended.AccessToken.set(SavedAccessToken);
+            }
             console.info("[k-sub-url-generator] data-input registration detected, default backend modified")
         })
     }
@@ -62,6 +66,7 @@ class SubURLGenerator extends HTMLElement {
                 isShowHost: this.querySelector("data-input#isShowHost") as DataInput,
                 HTTPHeaders: this.querySelector("data-input#HTTPHeaders") as DataInput,
                 ExcludeRegExpPattern: this.querySelector("data-input#ExcludeRegExpPattern") as DataInput,
+                AccessToken: this.querySelector("data-input#AccessToken") as DataInput,
             },
             Extended: {
                 RuleProviderUserspec: this.querySelector("data-input#RuleProviderUserspec") as DataInput,
@@ -96,6 +101,7 @@ class SubURLGenerator extends HTMLElement {
                 isShowHost: this.Elements.Config.UniversalExtended.isShowHost.get() as boolean,
                 ExcludeRegExpPattern: this.Elements.Config.UniversalExtended.ExcludeRegExpPattern.get() as string,
                 HTTPHeaders: JSON.stringify(JSON.parse(String(this.Elements.Config.UniversalExtended.HTTPHeaders.get()) || "{}")) as string,
+                AccessToken: (this.Elements.Config.UniversalExtended.AccessToken.get() || localStorage.getItem("edgesub_access_token") || "") as string,
             },
             Extended: {
                 RuleProvider: (this.Elements.Config.Extended.RuleProviderUserspec.get() || this.Elements.Config.Extended.RuleProvider.get()) as string,
@@ -129,6 +135,11 @@ class SubURLGenerator extends HTMLElement {
 
         // now we do some real works! con---gra---tu---la--tion---s---!
 
+        // remember the access token in this browser for next time
+        if (Config.UniversalExtended.AccessToken) {
+            localStorage.setItem("edgesub_access_token", String(Config.UniversalExtended.AccessToken));
+        }
+
         // grab the backend
         let URLObj = new URL(Config.Basic.Backend);
         URLObj.pathname = Config.Basic.Endpoint;
@@ -149,7 +160,8 @@ class SubURLGenerator extends HTMLElement {
             "isSSUoT": "ss_uot",
             "ForcedWS0RTT": "forced_ws0rtt",
             "isShowHost": "show_host",
-            "HTTPHeaders": "http_headers"
+            "HTTPHeaders": "http_headers",
+            "AccessToken": "token"
         }
 
         for (let [key, value] of Object.entries({
