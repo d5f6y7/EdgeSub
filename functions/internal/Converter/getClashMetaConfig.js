@@ -6,58 +6,40 @@ const BasicConfig = {
     isUDP: true,
     isSSUoT: false,
     isInsecure: true,
-    RuleProvider: "https://raw.githubusercontent.com/kobe-koto/EdgeSub/main/public/minimal_remote_rules.ini",
+    RuleProvider: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full.ini",
     RuleProvidersProxy: false,
-    BaseConfig: "http://localhost:4321/basic-config/mihomo.yaml",
+    BaseConfig: "https://raw.githubusercontent.com/d5f6y7/EdgeSub/main/public/basic-config/mihomo.yaml",
     // BaseConfig: "https://raw.githubusercontent.com/kobe-koto/EdgeSub/main/public/basic-config/mihomo.yaml",
     isForcedRefresh: false
 }
 
-
 import { RuleProviderReader } from "../RuleProviderReader/main.js";
 
 export async function getClashMetaConfig (
-    Proxies, 
-    EdgeSubDB, 
+    Proxies,
+    EdgeSubDB,
     PassedConfig = {},
 ) {
     const Config = TrulyAssign(BasicConfig, PassedConfig);
-
     console.log(`[getClashMetaConfig] fetching base config from remote (${Config.BaseConfig})`)
     const ClashConfig = parseYAML(await fetch(Config.BaseConfig).then(res => res.text()));
     console.log("[getClashMetaConfig] fetched base config", ClashConfig)
-
     let RuleProvider = await (new RuleProviderReader(Config.RuleProvider)).Process(EdgeSubDB, Config.isForcedRefresh)
-
     let Dumper = new ClashMetaDumper(Config.isUDP, Config.isSSUoT, Config.isInsecure)
-    
-    // validate proxies
     Proxies = Proxies.map(i => {
         if (Dumper.__validate(i)) {
             i.Hostname = i.Hostname.replace(/(^\[|\]$)/g, "");
             return i;
         }
     }).filter(i => !!i);
-    // append proxies
     ClashConfig.proxies = Proxies.map(i => Dumper[i.__Type](i));
-
-    
-
-    // Append proxy groups.
     ClashConfig["proxy-groups"] = []
     for (let i of RuleProvider.ProxyGroup) {
-
-        // get Matched Proxies
         let MatchedProxies = [];
         for (let t of i.RegExps) {
             MatchedProxies = [ ...MatchedProxies, ...Proxies.filter( loc => loc.__Remark.match(new RegExp(t)) ) ]
         }
-        // unique proxy
         MatchedProxies = Array.from(new Set(MatchedProxies));
-
-
-
-        // generate proxies list 
         let GroupProxies = [];
         for (let t of i.GroupSelectors) {
             GroupProxies.push(t.replace(/^\[\]/, ""))
@@ -66,12 +48,9 @@ export async function getClashMetaConfig (
             GroupProxies.push(t.__Remark)
         }
         if (MatchedProxies.length + i.GroupSelectors.length === 0) {
-            // add fallback selector if no selector can be added
             GroupProxies.push("DIRECT")
             GroupProxies.push("REJECT")
         }
-
-        //generate proxy group
         let ProxyGroup = {}
         ProxyGroup.name = i.name;
         ProxyGroup.type = i.type;
@@ -83,14 +62,10 @@ export async function getClashMetaConfig (
             ProxyGroup.tolerance = i.TestConfig.Tolerance;
         }
         ProxyGroup.proxies = GroupProxies;
-
-        // append proxy group to config
         ClashConfig["proxy-groups"].push(ProxyGroup)
     }
-
-    // append rule providers
     ClashConfig["rule-providers"] = {};
-    let RuleProvidersMapping = {}; // { URL: ID }[]
+    let RuleProvidersMapping = {};
     for (let i in RuleProvider.RuleProviders) {
         for (let t in RuleProvider.RuleProviders[i]) {
             const RuleProviderPayload = RuleProvider.RuleProviders[i][t];
@@ -115,11 +90,8 @@ export async function getClashMetaConfig (
             }
         }
     }
-
-    // Append rule sets;
     ClashConfig.rules = []
     for (let i of RuleProvider.Rules) {
-        
         const rulesetBreakdown = i.split(",")
         const id = rulesetBreakdown[0];
         let payload = rulesetBreakdown.slice(1).join(",");
@@ -128,6 +100,5 @@ export async function getClashMetaConfig (
         }
         ClashConfig.rules.push(`${payload},${id}`)
     }
-
     return ClashConfig;
 }
