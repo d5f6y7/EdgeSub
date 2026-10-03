@@ -1,9 +1,8 @@
-name = "edge-sub"
-compatibility_date = "2023-10-10"
+name = "e7-edgesub"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "dist"
 
-main = "workers-site/index.js"
-site.bucket = "./"
-
-kv_namespaces = [
-    { binding = "EdgeSubDB", id = "1761dfb08e78486aaae6ebf0fce7065f" },
-]
+[[kv_namespaces]]
+binding = "EdgeSubDB"
+id = "9feac058c10347a6b0dc72909c569877"
