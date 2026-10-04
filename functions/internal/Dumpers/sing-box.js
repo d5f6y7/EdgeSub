@@ -105,6 +105,32 @@ export default class Dumper {
     }
     hy2 = this.hysteria2;
 
+    anytls (ATObject) {
+        return {
+            type: "anytls",
+            tag: ATObject.__Remark,
+
+            server: ATObject.Hostname,
+            server_port: ATObject.Port,
+            password: ATObject.Auth,
+
+            idle_session_check_interval: (ATObject.Query["idle-session-check-interval"] ?? ATObject.Query.idleSessionCheckInterval) ? `${parseInt(ATObject.Query["idle-session-check-interval"] ?? ATObject.Query.idleSessionCheckInterval)}s` : undefined,
+            idle_session_timeout: (ATObject.Query["idle-session-timeout"] ?? ATObject.Query.idleSessionTimeout) ? `${parseInt(ATObject.Query["idle-session-timeout"] ?? ATObject.Query.idleSessionTimeout)}s` : undefined,
+            min_idle_session: parseInt(ATObject.Query["min-idle-session"] ?? ATObject.Query.minIdleSession) || undefined,
+
+            tls: {
+                enabled: true,
+                server_name: ATObject.Query.sni,
+                insecure: ATObject.Query.insecure ? !!parseInt(ATObject.Query.insecure) : this.config.SkipCertVerify,
+                alpn: ATObject.Query.alpn ? ATObject.Query.alpn.split(",") : undefined,
+                utls: (ATObject.Query.fp || ATObject.Query.fingerprint) ? {
+                    enabled: true,
+                    fingerprint: ATObject.Query.fp || ATObject.Query.fingerprint
+                } : undefined
+            },
+        }
+    }
+
     tuic (TUIC) {
         return {
             type: "tuic",

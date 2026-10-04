@@ -67,6 +67,25 @@ export class ClashMetaParser {
     }
     hy2 = this.hysteria2;
 
+    anytls (Obj) {
+        return {
+            __Type: "anytls",
+            __Remark: Obj.name,
+            Hostname: Obj.server,
+            Port: Obj.port,
+            Auth: Obj.password,
+            Query: {
+                sni: Obj.sni,
+                alpn: Obj.alpn ? Obj.alpn.join(",") : undefined,
+                fp: Obj["client-fingerprint"],
+                insecure: Obj["skip-cert-verify"] ? 1 : 0,
+                "idle-session-check-interval": Obj["idle-session-check-interval"],
+                "idle-session-timeout": Obj["idle-session-timeout"],
+                "min-idle-session": Obj["min-idle-session"],
+            }
+        }
+    }
+
     tuic (Obj) {
         return {
             __Type: "tuic",

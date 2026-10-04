@@ -63,6 +63,19 @@ export class ShareLinkParser {
     }
     hy2 = this.hysteria2;
 
+    anytls (ATURL) {
+        const URIObject = new URL (ATURL);
+
+        return {
+            __Type: "anytls",
+            __Remark: decodeURIComponent(URIObject.hash.replace(/^#/, "")) || URIObject.host,
+            Auth: decodeURIComponent(URIObject.password || URIObject.username),
+            Hostname: URIObject.hostname,
+            Port: parseInt(URIObject.port),
+            Query: __searchParamsMapper(URIObject.searchParams)
+        }
+    }
+
     tuic (TUICURI) {
         let URIObject = new URL(TUICURI);
 

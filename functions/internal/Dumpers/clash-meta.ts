@@ -90,6 +90,24 @@ export default class Dumper {
     }
     hy2 = this.hysteria2;
 
+    anytls (ATObject) {
+        return {
+            name: ATObject.__Remark,
+            type: ATObject.__Type,
+            server: ATObject.Hostname,
+            port: ATObject.Port,
+            password: ATObject.Auth,
+            udp: this.config.UDP,
+            sni: ATObject.Query.sni,
+            alpn: ATObject.Query.alpn ? ATObject.Query.alpn.split(",") : undefined,
+            "client-fingerprint": ATObject.Query.fp || ATObject.Query.fingerprint || this.config.ClientFingerprint,
+            "skip-cert-verify": ATObject.Query.insecure ? !!parseInt(ATObject.Query.insecure) : this.config.SkipCertVerify,
+            "idle-session-check-interval": __parseIntOrUndefined(ATObject.Query["idle-session-check-interval"] ?? ATObject.Query.idleSessionCheckInterval),
+            "idle-session-timeout": __parseIntOrUndefined(ATObject.Query["idle-session-timeout"] ?? ATObject.Query.idleSessionTimeout),
+            "min-idle-session": __parseIntOrUndefined(ATObject.Query["min-idle-session"] ?? ATObject.Query.minIdleSession),
+        }
+    }
+
     tuic (TUIC) {
         return {
             name: TUIC.__Remark,
@@ -302,4 +320,9 @@ function __genTransportH2 (Obj) : TransportH2 | undefined {
         method: Obj.Query.method,
         path: Obj.Query.path,
     } : undefined;
+}
+
+function __parseIntOrUndefined (value) : number | undefined {
+    const Parsed = parseInt(value);
+    return isNaN(Parsed) ? undefined : Parsed;
 }
