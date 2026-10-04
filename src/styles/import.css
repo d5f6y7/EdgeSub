@@ -9,18 +9,19 @@
     default: true;
     prefersdark: false;
     color-scheme: "light";
-    --color-base-100: oklch(98% 0.018 155.826);
-    --color-base-200: oklch(96% 0.044 156.743);
-    --color-base-300: oklch(92% 0.084 155.995);
-    --color-base-content: oklch(39% 0.095 152.535);
-    --color-primary: oklch(67% 0.182 276.935);
-    --color-primary-content: oklch(25% 0.09 281.288);
-    --color-secondary: oklch(67% 0.182 276.935);
-    --color-secondary-content: oklch(25% 0.09 281.288);
-    --color-accent: oklch(74% 0.16 232.661);
-    --color-accent-content: oklch(29% 0.066 243.157);
-    --color-neutral: oklch(26% 0.065 152.934);
-    --color-neutral-content: oklch(98% 0.018 155.826);
+    /* Spotify-style palette: green background, black buttons, white surfaces */
+    --color-base-100: #ffffff;
+    --color-base-200: #1db954;
+    --color-base-300: #ffffff;
+    --color-base-content: #000000;
+    --color-primary: #000000;
+    --color-primary-content: #ffffff;
+    --color-secondary: #000000;
+    --color-secondary-content: #ffffff;
+    --color-accent: #1db954;
+    --color-accent-content: #000000;
+    --color-neutral: #000000;
+    --color-neutral-content: #ffffff;
     --color-info: oklch(70% 0.165 254.624);
     --color-info-content: oklch(28% 0.091 267.935);
     --color-success: oklch(76% 0.177 163.223);
@@ -37,4 +38,35 @@
     --border: 1px;
     --depth: 1;
     --noise: 1;
+}
+
+/* Spotify-style skin */
+.main-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+}
+.contents {
+    padding: 24px 28px;
+}
+
+/* all action buttons black (ghost buttons keep transparent bg) */
+.btn:not(.btn-ghost) {
+    background-color: #000000;
+    border-color: #000000;
+    color: #ffffff;
+}
+.btn:not(.btn-ghost):hover {
+    background-color: #1f1f1f;
+    border-color: #1f1f1f;
+    color: #ffffff;
+}
+
+.alert {
+    border: 1px solid rgba(0, 0, 0, 0.14);
+}
+
+::selection {
+    background-color: #000000;
+    color: #1db954;
 }
