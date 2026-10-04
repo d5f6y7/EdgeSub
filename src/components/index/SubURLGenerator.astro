@@ -8,15 +8,6 @@ import { Endpoints } from "@config/AvalibleOptoutFormat.js"
 
 <k-suburl-generator data-endpoints={JSON.stringify(Endpoints)} class="flex-contents">
     <h1 class="text-2xl font-bold">EdgeSub 订阅转换</h1>
-    <div role="alert" class="alert bg-base-300 my-4">
-        <Icon name="iconoir:info-circle" />
-        <span>
-            如果实例并非您自己的，请谨慎使用。<br />
-            您输入的所有数据将<b>在请求订阅时进行远程处理</b>。<br />
-            与 Shorter 功能相关的数据将<b>以非加密形式远程存储</b>，并且 Short Token 仅用于访问控制，而非加密密码。<br />
-            <b>我们建议您按照 GitHub 上的文档进行自行部署。</b>
-        </span>
-    </div>
     <DataInput
         slug="SubURL"
         desc="订阅链接"
