@@ -47,7 +47,6 @@ export async function onRequest (context) {
             status: 200,
             headers: {
                 "Content-Type": "text/plain; charset=utf-8",
-                "Content-Length": ResponseBody.length,
                 "Cache-Control": "no-cache, no-store, must-revalidate",
                 "Pragma": "no-cache",
                 "Expires": "0",

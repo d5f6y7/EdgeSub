@@ -29,8 +29,7 @@ export async function onRequest (context, isBase64 = false) {
     return new Response(ShareLinkResponse, {
         status: 200,
         headers: {
-            "Content-Type": "text/plain, charset=utf-8",
-            "Content-Length": ShareLinkResponse.length
+            "Content-Type": "text/plain; charset=utf-8"
         }
     })
 }

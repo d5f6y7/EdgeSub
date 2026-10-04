@@ -48,7 +48,6 @@ export async function onRequest (context) {
         status: 200,
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-            "Content-Length": ResponseBody.length,
         }
     })
 }
