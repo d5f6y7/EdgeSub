@@ -113,8 +113,25 @@ details > ul a:hover {
     transform: translateY(0);
 }
 
+/* option switch rows: green-filled black frame, black text (never a black slab) */
+.fieldset.bg-base-100 {
+    background-color: transparent;
+    border: 2px solid #000000;
+    max-width: 100%;
+}
+.fieldset-legend {
+    color: #000000;
+    font-weight: 700;
+}
+.label {
+    color: #000000;
+    white-space: normal;
+    flex-wrap: wrap;
+}
+
 /* switches & checks */
 .toggle {
+    flex: none;
     background-color: #000000;
     border-color: #000000;
     color: #1ed760;
