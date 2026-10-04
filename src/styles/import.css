@@ -9,18 +9,19 @@
     default: true;
     prefersdark: false;
     color-scheme: "light";
-    --color-base-100: oklch(98% 0.018 155.826);
-    --color-base-200: oklch(96% 0.044 156.743);
-    --color-base-300: oklch(92% 0.084 155.995);
-    --color-base-content: oklch(39% 0.095 152.535);
-    --color-primary: oklch(67% 0.182 276.935);
-    --color-primary-content: oklch(25% 0.09 281.288);
-    --color-secondary: oklch(67% 0.182 276.935);
-    --color-secondary-content: oklch(25% 0.09 281.288);
-    --color-accent: oklch(74% 0.16 232.661);
-    --color-accent-content: oklch(29% 0.066 243.157);
-    --color-neutral: oklch(26% 0.065 152.934);
-    --color-neutral-content: oklch(98% 0.018 155.826);
+    /* Spotify skin v2: green background, black buttons, zero light surfaces */
+    --color-base-100: #000000;
+    --color-base-200: #1db954;
+    --color-base-300: #17a348;
+    --color-base-content: #000000;
+    --color-primary: #000000;
+    --color-primary-content: #1ed760;
+    --color-secondary: #000000;
+    --color-secondary-content: #1ed760;
+    --color-accent: #000000;
+    --color-accent-content: #1ed760;
+    --color-neutral: #000000;
+    --color-neutral-content: #1ed760;
     --color-info: oklch(70% 0.165 254.624);
     --color-info-content: oklch(28% 0.091 267.935);
     --color-success: oklch(76% 0.177 163.223);
@@ -37,4 +38,132 @@
     --border: 1px;
     --depth: 1;
     --noise: 1;
+}
+
+/* ===== Spotify skin v2: green bg, black buttons, zero light surfaces ===== */
+body {
+    background: linear-gradient(165deg, #1ed760 0%, #1db954 42%, #0e7a34 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #000000;
+}
+
+.main-card {
+    background-color: transparent;
+    border: 2px solid #000000;
+    border-radius: 18px;
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.28);
+}
+.contents {
+    padding: 26px 30px;
+}
+
+/* top bar: black slab with green text */
+.navbar {
+    background-color: #000000;
+    color: #1ed760;
+    border: 2px solid #000000;
+    border-top: none;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+.navbar a, .navbar summary {
+    color: #1ed760;
+}
+details > ul {
+    background-color: #000000;
+    border: 1.5px solid #000000;
+}
+details > ul a {
+    color: #1ed760;
+}
+details > ul a:hover {
+    background-color: rgba(30, 215, 96, 0.18);
+}
+
+/* form fields: black slabs, green text */
+.input, .textarea, .select, .file-input {
+    background-color: #000000;
+    border: 1.5px solid #000000;
+    color: #1ed760;
+}
+.input::placeholder, .textarea::placeholder {
+    color: rgba(30, 215, 96, 0.5);
+}
+.input:focus, .textarea:focus, .select:focus {
+    outline: 2px solid #000000;
+    outline-offset: 1px;
+}
+
+/* buttons: black pills, green label */
+.btn:not(.btn-ghost) {
+    background-color: #000000;
+    border-color: #000000;
+    color: #1ed760;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition: transform 0.12s ease, background-color 0.12s ease;
+}
+.btn:not(.btn-ghost):hover {
+    background-color: #161616;
+    border-color: #000000;
+    color: #1ed760;
+    transform: translateY(-1px);
+}
+.btn:not(.btn-ghost):active {
+    transform: translateY(0);
+}
+
+/* switches & checks */
+.toggle {
+    background-color: #000000;
+    border-color: #000000;
+    color: #1ed760;
+}
+.toggle:checked {
+    background-color: #000000;
+}
+.checkbox, .radio {
+    border-color: #000000;
+}
+.checkbox:checked, .radio:checked {
+    background-color: #000000;
+    color: #1ed760;
+}
+
+.alert {
+    background-color: #17a348;
+    border: 1.5px solid #000000;
+    color: #000000;
+}
+
+.divider {
+    color: #000000;
+}
+
+::selection {
+    background-color: #000000;
+    color: #1ed760;
+}
+
+/* ===== mobile tuning ===== */
+@media (max-width: 640px) {
+    .contents {
+        padding: 18px 16px;
+    }
+    .main-card {
+        border-radius: 14px;
+    }
+    .my-8 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .input, .textarea, .select {
+        font-size: 16px; /* stops iOS focus auto-zoom */
+    }
+    .btn {
+        min-height: 3rem;
+        padding-left: 1.4rem;
+        padding-right: 1.4rem;
+        font-size: 1rem;
+    }
 }
