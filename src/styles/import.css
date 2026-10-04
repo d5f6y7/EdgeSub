@@ -9,16 +9,16 @@
     default: true;
     prefersdark: false;
     color-scheme: "light";
-    /* Spotify-style palette: green background, black buttons, white surfaces */
-    --color-base-100: #ffffff;
+    /* Spotify-style palette: green background, white text, black frames & buttons */
+    --color-base-100: #1db954;
     --color-base-200: #1db954;
-    --color-base-300: #ffffff;
-    --color-base-content: #000000;
+    --color-base-300: #1db954;
+    --color-base-content: #ffffff;
     --color-primary: #000000;
     --color-primary-content: #ffffff;
     --color-secondary: #000000;
     --color-secondary-content: #ffffff;
-    --color-accent: #1db954;
+    --color-accent: #ffffff;
     --color-accent-content: #000000;
     --color-neutral: #000000;
     --color-neutral-content: #ffffff;
@@ -40,14 +40,33 @@
     --noise: 1;
 }
 
-/* Spotify-style skin */
+/* Spotify-style skin: green bg, white text, black frames */
 .main-card {
-    background-color: #ffffff;
+    background-color: transparent;
+    border: 2px solid #000000;
     border-radius: 1rem;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
 }
 .contents {
     padding: 24px 28px;
+}
+
+.navbar {
+    border: 2px solid #000000;
+    border-top: none;
+}
+
+/* form controls get a black frame, green fill, white text */
+.input, .textarea, .select, .file-input {
+    border-color: #000000;
+    border-width: 1.5px;
+    background-color: transparent;
+    color: #ffffff;
+}
+.input::placeholder, .textarea::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+.input:focus, .textarea:focus, .select:focus {
+    outline-color: #000000;
 }
 
 /* all action buttons black (ghost buttons keep transparent bg) */
@@ -58,15 +77,20 @@
 }
 .btn:not(.btn-ghost):hover {
     background-color: #1f1f1f;
-    border-color: #1f1f1f;
+    border-color: #000000;
     color: #ffffff;
 }
 
 .alert {
-    border: 1px solid rgba(0, 0, 0, 0.14);
+    border: 1.5px solid #000000;
+    color: #ffffff;
+}
+
+details > ul {
+    border: 1.5px solid #000000;
 }
 
 ::selection {
     background-color: #000000;
-    color: #1db954;
+    color: #ffffff;
 }
