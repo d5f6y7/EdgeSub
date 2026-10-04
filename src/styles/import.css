@@ -9,19 +9,18 @@
     default: true;
     prefersdark: false;
     color-scheme: "light";
-    /* Spotify-style palette: green background, white text, black frames & buttons */
-    --color-base-100: #1db954;
-    --color-base-200: #1db954;
-    --color-base-300: #1db954;
-    --color-base-content: #ffffff;
-    --color-primary: #000000;
-    --color-primary-content: #ffffff;
-    --color-secondary: #000000;
-    --color-secondary-content: #ffffff;
-    --color-accent: #ffffff;
-    --color-accent-content: #000000;
-    --color-neutral: #000000;
-    --color-neutral-content: #ffffff;
+    --color-base-100: oklch(98% 0.018 155.826);
+    --color-base-200: oklch(96% 0.044 156.743);
+    --color-base-300: oklch(92% 0.084 155.995);
+    --color-base-content: oklch(39% 0.095 152.535);
+    --color-primary: oklch(67% 0.182 276.935);
+    --color-primary-content: oklch(25% 0.09 281.288);
+    --color-secondary: oklch(67% 0.182 276.935);
+    --color-secondary-content: oklch(25% 0.09 281.288);
+    --color-accent: oklch(74% 0.16 232.661);
+    --color-accent-content: oklch(29% 0.066 243.157);
+    --color-neutral: oklch(26% 0.065 152.934);
+    --color-neutral-content: oklch(98% 0.018 155.826);
     --color-info: oklch(70% 0.165 254.624);
     --color-info-content: oklch(28% 0.091 267.935);
     --color-success: oklch(76% 0.177 163.223);
@@ -38,59 +37,4 @@
     --border: 1px;
     --depth: 1;
     --noise: 1;
-}
-
-/* Spotify-style skin: green bg, white text, black frames */
-.main-card {
-    background-color: transparent;
-    border: 2px solid #000000;
-    border-radius: 1rem;
-}
-.contents {
-    padding: 24px 28px;
-}
-
-.navbar {
-    border: 2px solid #000000;
-    border-top: none;
-}
-
-/* form controls get a black frame, green fill, white text */
-.input, .textarea, .select, .file-input {
-    border-color: #000000;
-    border-width: 1.5px;
-    background-color: transparent;
-    color: #ffffff;
-}
-.input::placeholder, .textarea::placeholder {
-    color: rgba(255, 255, 255, 0.55);
-}
-.input:focus, .textarea:focus, .select:focus {
-    outline-color: #000000;
-}
-
-/* all action buttons black (ghost buttons keep transparent bg) */
-.btn:not(.btn-ghost) {
-    background-color: #000000;
-    border-color: #000000;
-    color: #ffffff;
-}
-.btn:not(.btn-ghost):hover {
-    background-color: #1f1f1f;
-    border-color: #000000;
-    color: #ffffff;
-}
-
-.alert {
-    border: 1.5px solid #000000;
-    color: #ffffff;
-}
-
-details > ul {
-    border: 1.5px solid #000000;
-}
-
-::selection {
-    background-color: #000000;
-    color: #ffffff;
 }
