@@ -1,4 +1,4 @@
-import type { RealityConfig, TransportGRPC, TransportH2, TransportHTTP, TransportWS } from "../types/ClashMetaConfig";
+import type { RealityConfig, TransportGRPC, TransportH2, TransportHTTP, TransportWS, TransportXHTTP } from "../types/ClashMetaConfig";
 
 export default class Dumper {
     config = {
@@ -102,6 +102,10 @@ export default class Dumper {
             alpn: ATObject.Query.alpn ? ATObject.Query.alpn.split(",") : undefined,
             "client-fingerprint": ATObject.Query.fp || ATObject.Query.fingerprint || this.config.ClientFingerprint,
             "skip-cert-verify": ATObject.Query.insecure ? !!parseInt(ATObject.Query.insecure) : this.config.SkipCertVerify,
+            "reality-opts": ATObject.Query.pbk ? {
+                "public-key": ATObject.Query.pbk,
+                "short-id": ATObject.Query.sid
+            } : undefined,
             "idle-session-check-interval": __parseIntOrUndefined(ATObject.Query["idle-session-check-interval"] ?? ATObject.Query.idleSessionCheckInterval),
             "idle-session-timeout": __parseIntOrUndefined(ATObject.Query["idle-session-timeout"] ?? ATObject.Query.idleSessionTimeout),
             "min-idle-session": __parseIntOrUndefined(ATObject.Query["min-idle-session"] ?? ATObject.Query.minIdleSession),
@@ -136,6 +140,7 @@ export default class Dumper {
             port: VLESS.Port,
             uuid: VLESS.Auth,
             flow: VLESS.Query.flow,
+            encryption: (VLESS.Query.encryption && VLESS.Query.encryption !== "none") ? VLESS.Query.encryption : undefined,
             "packet-encoding": VLESS.Query.packetEncoding,
             tls: !!VLESS.Query.sni,
             servername: VLESS.Query.sni,
@@ -150,6 +155,7 @@ export default class Dumper {
             "grpc-opts": __genTransportGRPC(VLESS),
             "h2-opts": __genTransportH2(VLESS),
             "http-opts": __genTransportHTTP(VLESS),
+            "xhttp-opts": __genTransportXHTTP(VLESS),
 
             udp: this.config.UDP,
             "skip-cert-verify": this.config.SkipCertVerify,
@@ -325,4 +331,15 @@ function __genTransportH2 (Obj) : TransportH2 | undefined {
 function __parseIntOrUndefined (value) : number | undefined {
     const Parsed = parseInt(value);
     return isNaN(Parsed) ? undefined : Parsed;
+}
+
+function __genTransportXHTTP (Obj) : TransportXHTTP | undefined {
+    if (Obj.Query.type !== "xhttp") {
+        return undefined;
+    }
+    return {
+        path: Obj.Query.path ? (Obj.Query.path.startsWith("/") ? Obj.Query.path : "/" + Obj.Query.path) : undefined,
+        host: Obj.Query.host,
+        mode: Obj.Query.mode,
+    }
 }

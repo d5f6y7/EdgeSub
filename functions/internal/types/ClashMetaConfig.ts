@@ -42,6 +42,11 @@ export type TransportH2 = {
     method: string;
     path: string;
 }
+export type TransportXHTTP = {
+    path?: string;
+    host?: string;
+    mode?: string;
+}
 export type TransportGRPC = {
     "grpc-service-name": string;
 }

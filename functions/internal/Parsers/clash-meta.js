@@ -82,6 +82,8 @@ export class ClashMetaParser {
                 "idle-session-check-interval": Obj["idle-session-check-interval"],
                 "idle-session-timeout": Obj["idle-session-timeout"],
                 "min-idle-session": Obj["min-idle-session"],
+                pbk: (Obj["reality-opts"] || {})["public-key"],
+                sid: (Obj["reality-opts"] || {})["short-id"],
             }
         }
     }
@@ -113,6 +115,7 @@ export class ClashMetaParser {
             Auth: Obj.uuid,
             Query: {
                 flow: Obj.flow,
+                encryption: Obj.encryption,
                 packetEncoding: Obj["packet-encoding"],
                 sni: Obj.servername,
                 alpn: Obj.alpn ? Obj.alpn.join(",") : undefined,
@@ -141,6 +144,8 @@ export class ClashMetaParser {
                 // - http & ws & h2
                 path: Obj["ws-path"] || Obj.path,
                 host: Obj.host || (Obj["ws-headers"] || Obj.headers || {}).Host,
+                mode: (Obj["xhttp-opts"] || {}).mode,
+                ...(Obj["xhttp-opts"] ? { path: Obj["xhttp-opts"].path, host: Obj["xhttp-opts"].host, mode: Obj["xhttp-opts"].mode } : {}),
             }
         }
     }
