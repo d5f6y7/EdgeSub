@@ -58,26 +58,36 @@ body {
     padding: 26px 30px;
 }
 
-/* top bar: black slab with green text */
+/* top bar: green with black frame and black text */
 .navbar {
-    background-color: #000000;
-    color: #1ed760;
+    background-color: transparent;
+    color: #000000;
     border: 2px solid #000000;
     border-top: none;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
 }
 .navbar a, .navbar summary {
-    color: #1ed760;
+    color: #000000;
 }
 details > ul {
-    background-color: #000000;
+    background-color: #1db954;
     border: 1.5px solid #000000;
 }
 details > ul a {
-    color: #1ed760;
+    color: #000000;
 }
 details > ul a:hover {
-    background-color: rgba(30, 215, 96, 0.18);
+    background-color: rgba(0, 0, 0, 0.10);
+}
+.dropdown-content {
+    background-color: #1db954;
+    border: 1.5px solid #000000;
+    color: #000000;
+}
+.dropdown-content a, .dropdown-content li {
+    color: #000000;
+}
+.dropdown-content a:hover {
+    background-color: rgba(0, 0, 0, 0.10);
 }
 
 /* form fields: transparent green fill, black frame, black text (same as switch rows) */
@@ -94,20 +104,23 @@ details > ul a:hover {
     outline-offset: 1px;
 }
 
-/* buttons: black pills, green label */
+/* buttons: transparent green, black frame, black label */
 .btn:not(.btn-ghost) {
-    background-color: #000000;
-    border-color: #000000;
-    color: #1ed760;
+    background-color: transparent;
+    border: 2px solid #000000;
+    color: #000000;
     font-weight: 700;
     letter-spacing: 0.02em;
     transition: transform 0.12s ease, background-color 0.12s ease;
 }
 .btn:not(.btn-ghost):hover {
-    background-color: #161616;
+    background-color: rgba(0, 0, 0, 0.10);
     border-color: #000000;
-    color: #1ed760;
+    color: #000000;
     transform: translateY(-1px);
+}
+.btn-ghost {
+    color: #000000;
 }
 .btn:not(.btn-ghost):active {
     transform: translateY(0);
@@ -154,6 +167,17 @@ details > ul a:hover {
 }
 
 .divider {
+    color: #000000;
+}
+
+/* generated-link block: green fill, black frame, black text */
+.mockup-code {
+    background-color: transparent;
+    border: 2px solid #000000;
+    color: #000000;
+}
+.mockup-code pre, .mockup-code code {
+    background-color: transparent;
     color: #000000;
 }
 
