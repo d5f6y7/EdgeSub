@@ -17,6 +17,26 @@ export async function onRequest (context) {
         })
     }
 
+    let ParsedTarget: URL;
+    try {
+        ParsedTarget = new URL(targetURL as unknown as string);
+    } catch {
+        return new Response("400 Bad Request. 'target' is not a valid URL.", {
+            status: 400,
+            headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+            }
+        })
+    }
+    if (ParsedTarget.protocol !== "https:" || !["raw.githubusercontent.com", "github.com"].includes(ParsedTarget.hostname)) {
+        return new Response("403 Forbidden. target host is not allowed.", {
+            status: 403,
+            headers: {
+                "Content-Type": "text/plain; charset=utf-8"
+            }
+        })
+    }
+
 
     let RawData = await fetchCached(targetURL, "RuleSet", context.env.EdgeSubDB, isForcedRefresh);
 
