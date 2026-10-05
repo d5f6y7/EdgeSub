@@ -204,6 +204,61 @@ export class ShareLinkParser {
         }
         return TROJAN;
     }
+
+    ssr (SSRURI) {
+        // ssr://base64url(host:port:protocol:method:obfs:base64url(password)/?remarks=..&protoparam=..&obfsparam=..&group=..)
+        let Raw = SSRURI.replace(/^ssr:\/\//i, "");
+
+        // params after "/?" carry base64url values, still encoded at this stage
+        let EncodedParams = "";
+        let SeparatorIndex = Raw.indexOf("/?");
+        if (SeparatorIndex !== -1) {
+            EncodedParams = Raw.slice(SeparatorIndex + 2);
+            Raw = Raw.slice(0, SeparatorIndex);
+        }
+
+        let Main = __b64UrlDecode(Raw);
+
+        // some clients put everything (incl. "/?params") inside the base64
+        let DecodedParams = "";
+        SeparatorIndex = Main.indexOf("/?");
+        if (SeparatorIndex !== -1) {
+            DecodedParams = Main.slice(SeparatorIndex + 2);
+            Main = Main.slice(0, SeparatorIndex);
+        }
+
+        const Params = {};
+        for (const Encoded of [DecodedParams, EncodedParams]) {
+            if (!Encoded) { continue; }
+            for (const [key, value] of new URLSearchParams(Encoded)) {
+                Params[key] = value;
+            }
+        }
+
+        // host may contain ":" (ipv6); the last 5 segments are port/protocol/method/obfs/password
+        const Segments = Main.split(":");
+        const PasswordB64 = Segments.pop();
+        const Obfs = Segments.pop();
+        const Method = Segments.pop();
+        const Protocol = Segments.pop();
+        const Port = Segments.pop();
+        const Host = Segments.join(":");
+
+        return {
+            __Type: "ssr",
+            __Remark: Params.remarks ? __b64UrlDecode(Params.remarks) : Host,
+            Hostname: Host,
+            Port: parseInt(Port),
+            Auth: { cipher: Method, password: __b64UrlDecode(PasswordB64 || "") },
+            Query: {
+                protocol: Protocol,
+                obfs: Obfs,
+                "protocol-param": Params.protoparam ? __b64UrlDecode(Params.protoparam) : undefined,
+                "obfs-param": Params.obfsparam ? __b64UrlDecode(Params.obfsparam) : undefined,
+                group: Params.group ? __b64UrlDecode(Params.group) : undefined,
+            }
+        }
+    }
 }
 
 function __searchParamsMapper (searchParams) {
@@ -212,4 +267,11 @@ function __searchParamsMapper (searchParams) {
         Query[key] = value
     }
     return Query;
+}
+
+function __b64UrlDecode (str) {
+    const Normalized = String(str).replace(/-/g, "+").replace(/_/g, "/");
+    const Padded = Normalized + "=".repeat((4 - (Normalized.length % 4)) % 4);
+    const Binary = atob(Padded);
+    return new TextDecoder("utf-8").decode(Uint8Array.from(Binary, (c) => c.charCodeAt(0)));
 }

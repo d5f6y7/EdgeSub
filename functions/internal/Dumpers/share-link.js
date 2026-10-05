@@ -65,6 +65,15 @@ export class ShareLinkDumper {
     ss (Obj) {
         return `ss://${encodeURIComponent(btoa(`${Obj.Auth.cipher}:${Obj.Auth.password}`))}@${Obj.Hostname}:${Obj.Port}/#${encodeURIComponent(Obj.__Remark)}`
     }
+    ssr (Obj) {
+        const Main = `${Obj.Hostname}:${Obj.Port}:${Obj.Query.protocol || "origin"}:${Obj.Auth.cipher}:${Obj.Query.obfs || "plain"}:${__b64UrlEncode(Obj.Auth.password || "")}`;
+        const Params = [];
+        Params.push(`remarks=${__b64UrlEncode(Obj.__Remark || "")}`);
+        if (Obj.Query["protocol-param"]) { Params.push(`protoparam=${__b64UrlEncode(Obj.Query["protocol-param"])}`); }
+        if (Obj.Query["obfs-param"]) { Params.push(`obfsparam=${__b64UrlEncode(Obj.Query["obfs-param"])}`); }
+        if (Obj.Query.group) { Params.push(`group=${__b64UrlEncode(Obj.Query.group)}`); }
+        return `ssr://${__b64UrlEncode(Main)}/?${Params.join("&")}`
+    }
     trojan (Obj) {
         return `trojan://${Obj.Auth}@${Obj.Hostname}:${Obj.Port}/?${URLQueryWrapper(Obj.Query)}#${encodeURIComponent(Obj.__Remark)}`
     }
@@ -79,4 +88,11 @@ function URLQueryWrapper (Obj) {
         }
     }
     return Childs.join("&");
+}
+
+function __b64UrlEncode (str) {
+    const Bytes = new TextEncoder().encode(String(str));
+    let Binary = "";
+    for (const b of Bytes) { Binary += String.fromCharCode(b); }
+    return btoa(Binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }

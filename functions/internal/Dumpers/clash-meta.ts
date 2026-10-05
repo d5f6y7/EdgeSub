@@ -245,6 +245,21 @@ export default class Dumper {
             "udp-over-tcp-version": this.config.SSUoT ? 2 : undefined,
         }
     }
+    ssr (SSR) {
+        return {
+            name: SSR.__Remark,
+            type: "ssr",
+            server: SSR.Hostname,
+            port: SSR.Port,
+            cipher: SSR.Auth.cipher,
+            password: SSR.Auth.password,
+            protocol: SSR.Query.protocol,
+            "protocol-param": SSR.Query["protocol-param"],
+            obfs: SSR.Query.obfs,
+            "obfs-param": SSR.Query["obfs-param"],
+            udp: this.config.UDP,
+        }
+    }
     trojan (TROJAN) {
         return {
             name: TROJAN.__Remark,

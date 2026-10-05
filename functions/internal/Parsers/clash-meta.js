@@ -191,6 +191,22 @@ export class ClashMetaParser {
         }
     }
 
+    ssr (Obj) {
+        return {
+            __Type: "ssr",
+            __Remark: Obj.name,
+            Hostname: Obj.server,
+            Port: Obj.port,
+            Auth: { cipher: Obj.cipher, password: Obj.password },
+            Query: {
+                protocol: Obj.protocol,
+                obfs: Obj.obfs,
+                "protocol-param": Obj["protocol-param"],
+                "obfs-param": Obj["obfs-param"],
+            }
+        }
+    }
+
     trojan (Obj) {
         return {
             __Type: "trojan",
